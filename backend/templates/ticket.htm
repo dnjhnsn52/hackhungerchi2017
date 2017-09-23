@@ -8,12 +8,12 @@
 <body>
 
 <div>
-    And here, is your magic ID Code: {{data.uuid}}
+    And here, is your magic ID Code: {{data.tid}}
     And here, it is in QR Code form:
 
     <div id="qrcode"></div>
         <script type="text/javascript">
-            new QRCode(document.getElementById("qrcode"), "{{data.uuid}}" );
+            new QRCode(document.getElementById("qrcode"), "{{data.tid}}" );
         </script>
     </div>
 
