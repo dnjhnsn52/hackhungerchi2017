@@ -33,29 +33,48 @@ def helloworld():
 @app.route("/data", methods=["POST"])
 def hospitalCollectData():
     # create user's id
-    my_uuid = uuid.uuid4().hex
+    tid = uuid.uuid4().hex
 
-    app.datastore[my_uuid] = {
-        "uuid_datetime": str(datetime.datetime.now()),
-        "uuid": my_uuid,
+    app.datastore[tid] = {
+        "hvisit": str(datetime.datetime.now()),
+        "tid": tid,
+        "pid": request.form["pid"],
         "submission":request.form
     }
 
     # debug print
-    print(json.dumps(app.datastore[my_uuid], indent=4, cls=JSONExtendedEncoder))
-
-    response = app.response_class(
-        response=json.dumps(app.datastore[my_uuid]),
-        status=200,
-        mimetype='application/html'
-    )
-
-    return render_template('ticket.htm', data=app.datastore[my_uuid])
+    print(json.dumps(app.datastore[tid], indent=4, cls=JSONExtendedEncoder))
+    return render_template('ticket.htm', data=app.datastore[tid])
 
 # POST (truck) scanned data, and issue a printed receipt
 @app.route("/visit", methods=["POST"])
 def truckCollectData():
-    return("blah +", uuid.uuid4().hex)
+    print(request.json)
+    truckVisitJson = request.json
+    tid = truckVisitJson['tid']
+    truckid = truckVisitJson['truckid']
+
+    try:
+        transaction = app.datastore[tid]
+        transaction['tvisit'] = str(datetime.datetime.now())
+        transaction['truckid'] = truckVisitJson['truckid']
+
+        response = app.response_class(
+            response = "visit to " + truckid + " for transaction " + tid + " posted!",
+            status=201
+        )
+    except KeyError:
+        message = "invalid input, transaction id " + tid + " doesn't exist"
+        response = app.response_class(
+            response= message,
+            status=400,
+            mimetype='application/text'
+        )
+
+    # debug print
+    print(json.dumps(app.datastore[tid], indent=4, cls=JSONExtendedEncoder))
+
+    return response
 
 # GET stored data, see how it matches up
 @app.route("/summary", methods=["GET"])
