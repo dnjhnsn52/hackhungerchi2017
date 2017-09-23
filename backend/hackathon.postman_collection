@@ -1,0 +1,70 @@
+{
+	"variables": [],
+	"info": {
+		"name": "hackathon",
+		"_postman_id": "fed566ca-9830-9e54-ced3-7af7cce32393",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"request": {
+				"url": {
+					"raw": "http://localhost:5555/summary?id=2a14026dc3e444ca92516f5bb679c19c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5555",
+					"path": [
+						"summary"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2a14026dc3e444ca92516f5bb679c19c",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"hello\":\"world\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Hospital POST",
+			"request": {
+				"url": "http://localhost:5555/data",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"hello\":\"world\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
