@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-
-from flask import Flask, request
+from flask import Flask, request, render_template
 import os
 import json
 import uuid
@@ -17,7 +16,6 @@ class JSONExtendedEncoder(json.JSONEncoder):
             return str(o)
         else:
             return super(JSONExtendedEncoder,self).default(o)
-
 
 # Standin (!) for a real database
 app.datastore = {}
@@ -40,7 +38,7 @@ def hospitalCollectData():
     app.datastore[my_uuid] = {
         "uuid_datetime": str(datetime.datetime.now()),
         "uuid": my_uuid,
-        "submission":request.json
+        "submission":request.form
     }
 
     # debug print
@@ -49,9 +47,10 @@ def hospitalCollectData():
     response = app.response_class(
         response=json.dumps(app.datastore[my_uuid]),
         status=200,
-        mimetype='application/json'
+        mimetype='application/html'
     )
-    return response
+
+    return render_template('ticket.htm', data=app.datastore[my_uuid])
 
 # POST (truck) scanned data, and issue a printed receipt
 @app.route("/visit", methods=["POST"])
@@ -69,8 +68,6 @@ def fetchLoopData():
         mimetype='application/json'
     )
     return response
-
-
 
 def main():
     parser = argparse.ArgumentParser(description='Start up test server')

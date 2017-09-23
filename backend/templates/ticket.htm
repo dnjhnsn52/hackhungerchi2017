@@ -1,0 +1,21 @@
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="static/qrcodejs/qrcode.js"></script>
+
+</head>
+<body>
+
+<div>
+    And here, is your magic ID Code: {{data.uuid}}
+    And here, it is in QR Code form:
+
+    <div id="qrcode"></div>
+        <script type="text/javascript">
+            new QRCode(document.getElementById("qrcode"), "{{data.uuid}}" );
+        </script>
+    </div>
+
+</body>
+</html>
